@@ -1,37 +1,35 @@
-from agente import responder_pregunta, generar_consulta_sql
 
-print("===================================")
-print("       AGENTE EXPERTO EN SQL")
-print("===================================")
+"""
+Programa principal del agente experto en SQL.
+"""
 
-while True:
-    print("\nMENU PRINCIPAL")
-    print("1. Consultar conocimientos de SQL")
-    print("2. Generar una consulta SQL")
-    print("3. Salir")
+from orquestador import ejecutar_agente
 
-    opcion = input("\nSelecciona una opcion: ").strip()
 
-    if opcion == "1":
-        pregunta = input("\nEscribe tu pregunta sobre SQL: ")
-        respuesta = responder_pregunta(pregunta)
+def main():
+    """Ejecuta el agente experto en SQL desde la terminal."""
+    print("AGENTE EXPERTO EN SQL")
+    print("=====================")
+    print("Memoria conversacional activada.")
+    print("Escribe 'salir' para terminar.")
 
-        print("\nRESPUESTA:")
-        print(respuesta)
+    while True:
+        solicitud = input("\nTú: ").strip()
 
-    elif opcion == "2":
-        solicitud = input(
-            "\nDescribe la consulta SQL que necesitas: "
-        )
+        if solicitud.lower() == "salir":
+            print("\nConversación finalizada.")
+            break
 
-        consulta = generar_consulta_sql(solicitud)
+        resultado = ejecutar_agente(solicitud)
 
-        print("\nCONSULTA SQL GENERADA:")
-        print(consulta)
+        print("\nPROCESO DEL AGENTE")
+        print("==================")
+        print("Herramienta:", resultado["herramienta"])
+        print("Origen:", resultado["origen"])
 
-    elif opcion == "3":
-        print("Agente SQL finalizado.")
-        break
+        print("\nAgente:")
+        print(resultado["respuesta"])
 
-    else:
-        print("Opcion no valida. Selecciona 1, 2 o 3.")
+
+if __name__ == "__main__":
+    main()

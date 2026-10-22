@@ -1,5 +1,14 @@
+# Claves y variables de entorno
 .env
+.env.*
+
+# Memoria local del agente
+memoria.json
+
+# Archivos temporales de Python
+__pycache__/
+*.py[cod]
+
+# Entornos virtuales
 .venv/
 venv/
-__pycache__/
-*.pyc
