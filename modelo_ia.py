@@ -1,9 +1,24 @@
-import os
-from google import genai
+"""
+Conexión del agente experto en SQL con Gemini.
+"""
 
+import os
+
+from dotenv import load_dotenv
+from google import genai
 from prompt_sistema import PROMPT_SISTEMA
 
-cliente = genai.Client()
+load_dotenv()
+
+api_key = os.getenv("GEMINI_API_KEY")
+
+if not api_key:
+    raise ValueError(
+        "No se encontró GEMINI_API_KEY. "
+        "Revisa el archivo .env."
+    )
+
+cliente = genai.Client(api_key=api_key)
 
 
 def preguntar_ia(pregunta, contexto=""):
