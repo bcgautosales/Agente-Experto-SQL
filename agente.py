@@ -1,6 +1,8 @@
 import re
 import unicodedata
 
+from conocimientos import buscar_conocimiento
+
 """
 Agente experto en SQL con integración de Gemini.
 
@@ -11,10 +13,15 @@ de datos.
 
 
 def responder_pregunta(pregunta):
-    """Responde preguntas frecuentes de SQL sin consultar a Gemini."""
+    """Responde preguntas SQL usando conocimientos guardados o locales."""
 
-    # Normaliza el texto para aceptar preguntas con o sin tildes,
-    # mayúsculas, signos de interrogación o espacios adicionales.
+    # 1. Buscar primero los conocimientos agregados desde Alimentar.
+    respuesta_guardada = buscar_conocimiento(pregunta)
+
+    if respuesta_guardada:
+        return respuesta_guardada
+
+    # 2. Normalizar la pregunta para buscar en los conocimientos locales.
     def normalizar(texto):
         texto = texto.strip().lower()
         texto = unicodedata.normalize("NFD", texto)
@@ -27,6 +34,11 @@ def responder_pregunta(pregunta):
         return texto.strip()
 
     texto = normalizar(pregunta)
+
+    # Los conocimientos agregados desde la sección "Alimentar" tienen prioridad.
+    respuesta_personalizada = buscar_conocimiento(pregunta)
+    if respuesta_personalizada:
+        return respuesta_personalizada
 
     # Cada entrada contiene expresiones que puede utilizar el usuario
     # y una respuesta programada que no requiere conexión con Gemini.

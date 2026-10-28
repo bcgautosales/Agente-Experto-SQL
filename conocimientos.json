@@ -1,0 +1,98 @@
+[
+    {
+        "pregunta": "¿Qué es un índice en SQL?",
+        "respuesta": "Un índice es una estructura que permite localizar registros de una tabla más rápidamente sin tener que revisar todas sus filas. Se utiliza para mejorar el rendimiento de consultas frecuentes, especialmente cuando filtran o relacionan grandes cantidades de datos. Sin embargo, los índices ocupan espacio y pueden hacer más lentas las operaciones INSERT, UPDATE y DELETE porque también deben mantenerse actualizados. Ejemplo: CREATE INDEX idx_usuarios_correo ON usuarios(correo);."
+    },
+    {
+        "pregunta": "¿Qué es una transacción en SQL?",
+        "respuesta": "Una transacción es un conjunto de operaciones SQL que se ejecutan como una unidad lógica. Permite confirmar todos los cambios con COMMIT o deshacer los cambios pendientes con ROLLBACK. Es especialmente útil en transferencias bancarias, pagos y operaciones que deben mantener la consistencia de los datos. Ejemplo: BEGIN; UPDATE cuentas SET saldo = saldo - 100 WHERE id = 1; UPDATE cuentas SET saldo = saldo + 100 WHERE id = 2; COMMIT;. La sintaxis exacta puede variar según el motor de base de datos."
+    },
+    {
+        "pregunta": "¿Qué significa ACID en bases de datos?",
+        "respuesta": "ACID representa cuatro propiedades que ayudan a garantizar la confiabilidad de las transacciones. Atomicidad significa que la operación se completa o se revierte; consistencia significa que se respetan las reglas de integridad; aislamiento controla cómo interactúan las transacciones concurrentes; y durabilidad significa que los cambios confirmados permanecen guardados ante fallos, según las garantías del sistema."
+    },
+    {
+        "pregunta": "¿Qué es una vista en SQL?",
+        "respuesta": "Una vista es una consulta almacenada que se presenta como una tabla virtual. Puede simplificar consultas complejas y limitar qué columnas o registros pueden ver determinados usuarios. Una vista convencional normalmente no almacena los resultados como una tabla independiente, aunque existen vistas materializadas en algunos motores. Ejemplo: CREATE VIEW usuarios_activos AS SELECT id, nombre FROM usuarios WHERE activo = 1;."
+    },
+    {
+        "pregunta": "¿Qué es una CTE en SQL?",
+        "respuesta": "Una CTE, o expresión de tabla común, es un resultado temporal con nombre que se define mediante WITH y se utiliza dentro de una sola instrucción SQL. Ayuda a organizar consultas complejas y puede utilizarse para crear consultas recursivas en motores compatibles. Ejemplo: WITH empleados_activos AS (SELECT * FROM empleados WHERE activo = 1) SELECT * FROM empleados_activos;."
+    },
+    {
+        "pregunta": "¿Para qué sirve la expresión CASE en SQL?",
+        "respuesta": "CASE permite evaluar condiciones y devolver un resultado diferente según cuál se cumpla. Es útil para clasificar registros o crear columnas calculadas en una consulta. Ejemplo: SELECT nombre, CASE WHEN salario >= 3000 THEN 'Alto' ELSE 'Regular' END AS categoria FROM empleados;. Si ninguna condición coincide y no se define ELSE, el resultado será NULL."
+    },
+    {
+        "pregunta": "¿Qué hace la función COALESCE en SQL?",
+        "respuesta": "COALESCE devuelve el primer argumento que no sea NULL. Se utiliza para proporcionar valores alternativos cuando una columna no contiene información. Ejemplo: SELECT nombre, COALESCE(telefono, 'Sin teléfono') AS telefono FROM clientes;. El motor devuelve el teléfono cuando existe y el texto alternativo cuando es NULL. Los argumentos deben tener tipos compatibles."
+    },
+    {
+        "pregunta": "¿Qué es la normalización de una base de datos?",
+        "respuesta": "La normalización es un proceso de diseño que organiza los datos para reducir la duplicación y evitar anomalías al insertar, actualizar o eliminar registros. La primera forma normal busca valores atómicos y una estructura adecuada; la segunda elimina dependencias parciales respecto de claves candidatas; y la tercera elimina dependencias transitivas de atributos no clave. El objetivo es mejorar la integridad y facilitar el mantenimiento de la base de datos."
+    },
+    {
+        "pregunta": "¿Qué es una función de ventana en SQL?",
+        "respuesta": "Una función de ventana calcula un resultado sobre un conjunto de filas relacionadas con la fila actual sin agruparlas en una sola fila. Se utiliza para clasificaciones, acumulados y comparaciones entre registros. Por ejemplo: SELECT nombre, salario, RANK() OVER (ORDER BY salario DESC) AS posicion FROM empleados;. Esta consulta asigna una posición según el salario y conserva cada empleado en el resultado."
+    },
+    {
+        "pregunta": "¿Qué es una restricción CHECK en SQL?",
+        "respuesta": "CHECK es una restricción que exige que los valores de una columna o los valores relacionados cumplan una condición. Ayuda a evitar datos inválidos. Ejemplo: CREATE TABLE productos (id INT PRIMARY KEY, precio DECIMAL(10,2) CHECK (precio >= 0));. En este ejemplo, el precio no puede ser negativo. El comportamiento exacto depende del motor y de cómo gestione los valores NULL."
+    },
+    {
+        "pregunta": "¿Qué es una restricción UNIQUE en SQL?",
+        "respuesta": "UNIQUE impide que se repitan determinadas combinaciones de valores en una tabla. Se utiliza, por ejemplo, para evitar que dos usuarios tengan el mismo correo electrónico. Ejemplo: CREATE TABLE usuarios (id INT PRIMARY KEY, correo VARCHAR(150) UNIQUE);. La forma de tratar múltiples valores NULL depende del sistema gestor de bases de datos. Una restricción UNIQUE puede abarcar una columna o varias."
+    },
+    {
+        "pregunta": "¿Qué diferencia existe entre EXISTS e IN en SQL?",
+        "respuesta": "EXISTS comprueba si una subconsulta devuelve al menos una fila, mientras que IN comprueba si un valor pertenece a un conjunto de resultados o valores. Ambos pueden utilizarse para filtrar registros. EXISTS es útil en consultas relacionadas y puede detener la búsqueda al encontrar una coincidencia; el rendimiento depende del motor y del plan de ejecución. Ejemplo: SELECT c.nombre FROM clientes c WHERE EXISTS (SELECT 1 FROM pedidos p WHERE p.cliente_id = c.id);."
+    },
+    {
+        "pregunta": "¿Qué es un procedimiento almacenado?",
+        "respuesta": "Un procedimiento almacenado es un conjunto de instrucciones SQL y, según el motor, instrucciones de programación que se guardan en la base de datos para ejecutarse cuando se invocan. Puede centralizar operaciones, reutilizar lógica y controlar permisos. Su creación e invocación varían entre MySQL, SQL Server, PostgreSQL y otros sistemas gestores."
+    },
+    {
+        "pregunta": "¿Qué es un trigger o disparador en SQL?",
+        "respuesta": "Un trigger es una rutina que se ejecuta automáticamente cuando ocurre un evento configurado, como insertar, actualizar o eliminar datos en una tabla o vista compatible. Puede utilizarse para auditar modificaciones o aplicar reglas específicas. Los eventos, la sintaxis y las restricciones de ejecución dependen del motor de base de datos."
+    },
+    {
+        "pregunta": "¿Qué es SQL Injection y cómo se previene?",
+        "respuesta": "SQL Injection es una vulnerabilidad que ocurre cuando una aplicación incorpora entradas no confiables directamente en una instrucción SQL y permite alterar su significado. Para prevenirla, se deben utilizar consultas parametrizadas o preparadas, validar las entradas, limitar los permisos de la cuenta de base de datos y evitar construir consultas concatenando texto del usuario. La validación por sí sola no sustituye las consultas parametrizadas."
+    },
+    {
+        "pregunta": "¿Qué es EXPLAIN en SQL?",
+        "respuesta": "EXPLAIN permite inspeccionar el plan que el motor de base de datos prevé utilizar para ejecutar una consulta. Puede mostrar si se utilizarán índices, cómo se recorrerán las tablas y qué operaciones se realizarán. Algunas bases de datos ofrecen variantes como EXPLAIN ANALYZE, que ejecutan la consulta y muestran métricas reales. La sintaxis y los detalles dependen del motor."
+    },
+    {
+        "pregunta": "¿Qué son las funciones ROW_NUMBER, RANK y DENSE_RANK?",
+        "respuesta": "Son funciones de ventana que asignan posiciones a las filas según un orden. ROW_NUMBER() asigna un número distinto a cada fila; RANK() asigna la misma posición a los empates y deja saltos en las posiciones siguientes; DENSE_RANK() también comparte posición entre empates, pero no deja saltos. Ejemplo: SELECT nombre, salario, DENSE_RANK() OVER (ORDER BY salario DESC) AS ranking FROM empleados;."
+    },
+    {
+        "pregunta": "¿Cómo se realiza una paginación de resultados en SQL?",
+        "respuesta": "La paginación permite devolver un grupo limitado de filas por página. En MySQL y PostgreSQL puede utilizarse LIMIT y OFFSET; en SQL Server se emplea normalmente ORDER BY junto con OFFSET ... ROWS FETCH NEXT ... ROWS ONLY. Conviene ordenar los resultados por una columna o combinación de columnas que produzca un orden estable. En tablas grandes, la paginación por clave puede ser más eficiente que utilizar desplazamientos elevados."
+    },
+    {
+        "pregunta": "¿Qué diferencia existe entre DELETE, TRUNCATE y DROP?",
+        "respuesta": "DELETE elimina filas de una tabla y puede usar WHERE para seleccionar cuáles. TRUNCATE elimina todas las filas mediante una operación específica del motor, generalmente sin permitir seleccionar filas con WHERE. DROP elimina el objeto de base de datos, como la tabla, junto con su definición. Sus efectos sobre transacciones, permisos, bloqueos y contadores de identidad varían según el motor."
+    },
+    {
+        "pregunta": "¿Cómo encuentro correos electrónicos duplicados en una tabla de usuarios?",
+        "respuesta": "Se utiliza GROUP BY para agrupar los correos y HAVING COUNT(*) > 1 para mostrar los que aparecen más de una vez.\nSELECT correo, COUNT(*) AS cantidad\nFROM usuarios\nGROUP BY correo\nHAVING COUNT(*) > 1;"
+    },
+    {
+        "pregunta": "¿Cómo obtengo el segundo salario más alto sin contar salarios repetidos?",
+        "respuesta": "Se puede utilizar DISTINCT para eliminar salarios duplicados y ordenar los valores de mayor a menor. En MySQL y PostgreSQL:\nSELECT DISTINCT salario\nFROM empleados\nWHERE salario IS NOT NULL\nORDER BY salario DESC\nLIMIT 1 OFFSET 1;"
+    },
+    {
+        "pregunta": "¿Cómo cuento cuántos pedidos ha realizado cada cliente?",
+        "respuesta": "Se utiliza LEFT JOIN para conservar los clientes que no tengan pedidos y COUNT(p.id) para contar únicamente los pedidos existentes.\nSELECT c.id, c.nombre, COUNT(p.id) AS total_pedidos\nFROM clientes c\nLEFT JOIN pedidos p ON p.cliente_id = c.id\nGROUP BY c.id, c.nombre;"
+    },
+    {
+        "pregunta": "¿Cómo aumento un 10 % el precio de los productos que cuestan menos de 100?",
+        "respuesta": "Se utiliza UPDATE con una condición WHERE para modificar únicamente los productos seleccionados.\nUPDATE productos\nSET precio = precio * 1.10\nWHERE precio < 100;"
+    },
+    {
+        "pregunta": "¿Cómo encuentro los clientes que nunca han realizado un pedido?",
+        "respuesta": "Se puede utilizar NOT EXISTS para buscar clientes para los cuales no existe ningún pedido relacionado.\nSELECT c.id, c.nombre\nFROM clientes c\nWHERE NOT EXISTS (\n    SELECT 1\n    FROM pedidos p\n    WHERE p.cliente_id = c.id\n);"
+    }
+]

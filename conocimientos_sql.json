@@ -1,0 +1,26 @@
+[
+  {
+    "concepto": "¿Qué es una clave candidata?",
+    "respuesta": "Una clave candidata es una columna o combinación de columnas que puede identificar de forma única cada fila de una tabla. Una tabla puede tener varias claves candidatas, pero se selecciona una como clave primaria."
+  },
+  {
+    "concepto": "¿Qué es un índice en SQL?",
+    "respuesta": "Un índice es una estructura que permite localizar registros de una tabla más rápidamente sin tener que revisar todas sus filas. Se utiliza para mejorar el rendimiento de consultas frecuentes, especialmente cuando filtran o relacionan grandes cantidades de datos. Sin embargo, los índices ocupan espacio y pueden hacer más lentas las operaciones INSERT, UPDATE y DELETE porque también deben mantenerse actualizados. Ejemplo: CREATE INDEX idx_usuarios_correo ON usuarios(correo);."
+  },
+  {
+    "concepto": "¿Qué es una transacción en SQL?",
+    "respuesta": "Una transacción es un conjunto de operaciones SQL que se ejecutan como una unidad lógica. Permite confirmar todos los cambios con COMMIT o deshacer los cambios pendientes con ROLLBACK. Es especialmente útil en transferencias bancarias, pagos y operaciones que deben mantener la consistencia de los datos. Ejemplo: BEGIN; UPDATE cuentas SET saldo = saldo - 100 WHERE id = 1; UPDATE cuentas SET saldo = saldo + 100 WHERE id = 2; COMMIT;. La sintaxis exacta puede variar según el motor de base de datos."
+  },
+  {
+    "concepto": "¿Qué significa ACID en bases de datos?",
+    "respuesta": "ACID representa cuatro propiedades que ayudan a garantizar la confiabilidad de las transacciones. Atomicidad significa que la operación se completa o se revierte; consistencia significa que se respetan las reglas de integridad; aislamiento controla cómo interactúan las transacciones concurrentes; y durabilidad significa que los cambios confirmados permanecen guardados ante fallos, según las garantías del sistema."
+  },
+  {
+    "concepto": "¿Qué es una vista en SQL?",
+    "respuesta": "Una vista es una consulta almacenada que se presenta como una tabla virtual. Puede simplificar consultas complejas y limitar qué columnas o registros pueden ver determinados usuarios. Una vista convencional normalmente no almacena los resultados como una tabla independiente, aunque existen vistas materializadas en algunos motores. Ejemplo: CREATE VIEW usuarios_activos AS SELECT id, nombre FROM usuarios WHERE activo = 1;."
+  },
+  {
+    "concepto": "¿Qué es una CTE en SQL?",
+    "respuesta": "Una CTE, o expresión de tabla común, es un resultado temporal con nombre que se define mediante WITH y se utiliza dentro de una sola instrucción SQL. Ayuda a organizar consultas complejas y puede utilizarse para crear consultas recursivas en motores compatibles. Ejemplo: WITH empleados_activos AS (SELECT * FROM empleados WHERE activo = 1) SELECT * FROM empleados_activos;."
+  }
+]
