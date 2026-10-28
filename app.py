@@ -66,95 +66,283 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+
 # =====================================================
 # ESTILOS CSS
 # =====================================================
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Variables del diseño */
 :root {
-    --fondo:#0B1120; --panel:#131E31; --panel2:#192840;
-    --turquesa:#2DE2C5; --blanco:#F8FAFC; --texto:#D7E1EF; --borde:#30425B;
+    --fondo: #0B1120;
+    --panel: #131E31;
+    --panel2: #192840;
+    --turquesa: #2DE2C5;
+    --blanco: #F8FAFC;
+    --texto: #D7E1EF;
+    --borde: #30425B;
 }
-html, body, [class*="css"] {font-family:'Inter',sans-serif;}
+
+/* Navegación inferior: oculta por defecto */
+.mobile-bottom-nav {
+    display: none;
+}
+
+/* Estilos generales */
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
 .stApp {
-    background:radial-gradient(ellipse at 80% 0%,#17334A 0%,transparent 38%),#0B1120;
-    color:var(--blanco);
+    background: radial-gradient(ellipse at 80% 0%, #17334A 0%, transparent 38%), #0B1120;
+    color: var(--blanco);
 }
-h1,h2,h3,h4,p,label,[data-testid="stMarkdownContainer"] {color:var(--blanco);}
-[data-testid="stCaptionContainer"] {color:#B8C7DA!important;}
-.stApp p {line-height:1.65;}
+
+h1, h2, h3, h4, p, label,
+[data-testid="stMarkdownContainer"] {
+    color: var(--blanco);
+}
+
+[data-testid="stCaptionContainer"] {
+    color: #B8C7DA !important;
+}
+
+.stApp p {
+    line-height: 1.65;
+}
+
+/* Panel lateral */
 [data-testid="stSidebar"] {
-    background:linear-gradient(180deg,#142137,#0F192B);
-    border-right:1px solid #2D4059;
+    background: linear-gradient(180deg, #142137, #0F192B);
+    border-right: 1px solid #2D4059;
 }
-[data-testid="stSidebar"]>div:first-child {padding-top:1.5rem;}
+
+[data-testid="stSidebar"] > div:first-child {
+    padding-top: 1.5rem;
+}
+
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
 [data-testid="stSidebar"] label,
 [data-testid="stSidebar"] span,
-[data-testid="stSidebar"] div {color:#F8FAFC;}
-[data-testid="stSidebar"] [role="radiogroup"] {gap:8px;}
+[data-testid="stSidebar"] div {
+    color: #F8FAFC;
+}
+
+[data-testid="stSidebar"] [role="radiogroup"] {
+    gap: 8px;
+}
+
 [data-testid="stSidebar"] [role="radiogroup"] label {
-    background:#192840;border:1px solid #30425B;border-radius:11px;
-    padding:10px 12px;transition:all .2s ease;
+    background: #192840;
+    border: 1px solid #30425B;
+    border-radius: 11px;
+    padding: 10px 12px;
+    transition: all .2s ease;
 }
+
 [data-testid="stSidebar"] [role="radiogroup"] label:hover {
-    background:#243B53;border-color:#2DE2C5;
+    background: #243B53;
+    border-color: #2DE2C5;
 }
-.stButton>button,.stFormSubmitButton>button {
-    background:linear-gradient(135deg,#2DE2C5,#16B8AE);
-    color:#071521!important;border:none;border-radius:10px;font-weight:700;
-    min-height:43px;transition:all .2s ease;
+
+/* Botones */
+.stButton > button,
+.stFormSubmitButton > button {
+    background: linear-gradient(135deg, #2DE2C5, #16B8AE);
+    color: #071521 !important;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    min-height: 43px;
+    transition: all .2s ease;
 }
-.stButton>button:hover,.stFormSubmitButton>button:hover {
-    background:#72F5DE;color:#071521!important;border:none;
-    transform:translateY(-2px);box-shadow:0 6px 20px #2DE2C522;
+
+.stButton > button:hover,
+.stFormSubmitButton > button:hover {
+    background: #72F5DE;
+    color: #071521 !important;
+    border: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px #2DE2C522;
 }
+
+/* Tarjetas */
 .tarjeta {
-    background:linear-gradient(145deg,#192840,#121D30);
-    border:1px solid #30425B;border-radius:17px;padding:21px;
-    min-height:168px;height:100%;transition:all .22s ease;
+    background: linear-gradient(145deg, #192840, #121D30);
+    border: 1px solid #30425B;
+    border-radius: 17px;
+    padding: 21px;
+    min-height: 168px;
+    height: 100%;
+    transition: all .22s ease;
 }
-.tarjeta:hover {border-color:#2DE2C5;transform:translateY(-4px);box-shadow:0 12px 30px #00000025;}
-.icono {font-size:28px;margin-bottom:12px;}
-.tarjeta h3 {color:#2DE2C5!important;font-size:17px;margin-bottom:7px;}
-.tarjeta p {color:#D7E1EF!important;font-size:13px;margin-bottom:0;}
+
+.tarjeta:hover {
+    border-color: #2DE2C5;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px #00000025;
+}
+
+.icono {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.tarjeta h3 {
+    color: #2DE2C5 !important;
+    font-size: 17px;
+    margin-bottom: 7px;
+}
+
+.tarjeta p {
+    color: #D7E1EF !important;
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+/* Portada */
 .hero {
-    background:linear-gradient(115deg,#173047,#17243A 65%,#16383D);
-    border:1px solid #31536A;border-radius:22px;padding:30px;margin-bottom:22px;
-    position:relative;overflow:hidden;
+    background: linear-gradient(115deg, #173047, #17243A 65%, #16383D);
+    border: 1px solid #31536A;
+    border-radius: 22px;
+    padding: 30px;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
 }
-.hero h1 {font-size:clamp(29px,3.5vw,43px);font-weight:800;letter-spacing:-1.5px;margin-bottom:10px;}
-.hero p {color:#D7E8F2!important;max-width:680px;}
+
+.hero h1 {
+    font-size: clamp(29px, 3.5vw, 43px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #D7E8F2 !important;
+    max-width: 680px;
+}
+
 .etiqueta {
-    display:inline-block;background:#2DE2C51C;border:1px solid #2DE2C566;
-    color:#6FF7E0;padding:6px 12px;border-radius:30px;font-size:12px;
-    font-weight:700;margin-bottom:14px;
+    display: inline-block;
+    background: #2DE2C51C;
+    border: 1px solid #2DE2C566;
+    color: #6FF7E0;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 14px;
 }
-[data-testid="stTextArea"] textarea,[data-testid="stTextInput"] input {
-    background-color:#101B2D!important;color:#FFF!important;
-    border:1px solid #3A506D!important;border-radius:12px!important;
+
+/* Campos de texto */
+[data-testid="stTextArea"] textarea,
+[data-testid="stTextInput"] input {
+    background-color: #101B2D !important;
+    color: #FFF !important;
+    border: 1px solid #3A506D !important;
+    border-radius: 12px !important;
 }
-[data-testid="stTextArea"] textarea:focus,[data-testid="stTextInput"] input:focus {
-    border-color:#2DE2C5!important;box-shadow:0 0 0 1px #2DE2C5;
+
+[data-testid="stTextArea"] textarea:focus,
+[data-testid="stTextInput"] input:focus {
+    border-color: #2DE2C5 !important;
+    box-shadow: 0 0 0 1px #2DE2C5;
 }
-[data-testid="stTextArea"] textarea::placeholder {color:#9BAEC5!important;}
-[data-baseweb="select"]>div {background-color:#192840;color:white;border-color:#30425B;}
-.stTabs [data-baseweb="tab-list"] {gap:8px;}
-.stTabs [data-baseweb="tab"] {color:#D7E1EF;background:#17243A;border-radius:9px 9px 0 0;padding:10px 16px;}
-.stTabs [aria-selected="true"] {color:#2DE2C5!important;}
+
+[data-testid="stTextArea"] textarea::placeholder {
+    color: #9BAEC5 !important;
+}
+
+/* Selectores y pestañas */
+[data-baseweb="select"] > div {
+    background-color: #192840;
+    color: white;
+    border-color: #30425B;
+}
+
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    color: #D7E1EF;
+    background: #17243A;
+    border-radius: 9px 9px 0 0;
+    padding: 10px 16px;
+}
+
+.stTabs [aria-selected="true"] {
+    color: #2DE2C5 !important;
+}
+
+/* Resultados */
 .resultado {
-    background:#131F31;border:1px solid #30425B;border-left:4px solid #2DE2C5;
-    border-radius:12px;padding:20px;margin-top:12px;
+    background: #131F31;
+    border: 1px solid #30425B;
+    border-left: 4px solid #2DE2C5;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 12px;
 }
-hr {border-color:#30425B;}
-[data-testid="stMetric"] {background:#17243A;border:1px solid #30425B;border-radius:13px;padding:15px;}
-[data-testid="stMetricLabel"] {color:#D7E1EF!important;}
-[data-testid="stMetricValue"] {color:#2DE2C5!important;}
-footer,#MainMenu {visibility:hidden;}
+
+hr {
+    border-color: #30425B;
+}
+
+/* Métricas */
+[data-testid="stMetric"] {
+    background: #17243A;
+    border: 1px solid #30425B;
+    border-radius: 13px;
+    padding: 15px;
+}
+
+[data-testid="stMetricLabel"] {
+    color: #D7E1EF !important;
+}
+
+[data-testid="stMetricValue"] {
+    color: #2DE2C5 !important;
+}
+
+/* Ocultar elementos predeterminados */
+footer, #MainMenu {
+    visibility: hidden;
+}
+
+/* Navegación inferior únicamente en teléfonos */
+@media (max-width: 768px) {
+    .mobile-bottom-nav {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        background: #131E31;
+        border-top: 1px solid #30425B;
+        padding: 8px 5px;
+        box-shadow: 0 -5px 18px #00000035;
+    }
+
+    .mobile-bottom-nav button {
+        font-size: 11px !important;
+        min-height: 48px !important;
+        padding: 4px 2px !important;
+        white-space: normal !important;
+    }
+
+    [data-testid="stMainBlockContainer"] {
+        padding-bottom: 100px !important;
+    }
+}
 </style>
 """, unsafe_allow_html=True)
+
 
 # =====================================================
 # ESTADO DE LA APLICACION
@@ -328,6 +516,96 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
+# =====================================================
+# NAVEGACION RAPIDA PARA MOVILES
+# =====================================================
+
+if "mostrar_menu_movil" not in st.session_state:
+    st.session_state.mostrar_menu_movil = False
+
+
+def ir_a_seccion_movil(nombre):
+    st.session_state.seccion = nombre
+    st.session_state.mostrar_menu_movil = False
+
+
+with st.container(key="mobile_bottom_nav"):
+    st.markdown(
+        '<div class="mobile-bottom-nav"></div>',
+        unsafe_allow_html=True,
+    )
+
+    nav1, nav2, nav3, nav4, nav5 = st.columns(5)
+
+    with nav1:
+        st.button(
+            "🏠 Inicio",
+            key="movil_inicio",
+            use_container_width=True,
+            on_click=ir_a_seccion_movil,
+            args=("Inicio",),
+        )
+
+    with nav2:
+        st.button(
+            "📚 Aprender",
+            key="movil_aprender",
+            use_container_width=True,
+            on_click=ir_a_seccion_movil,
+            args=("Aprender SQL",),
+        )
+
+    with nav3:
+        st.button(
+            "⚙️ Consultas",
+            key="movil_consultas",
+            use_container_width=True,
+            on_click=ir_a_seccion_movil,
+            args=("Generar consultas",),
+        )
+
+    with nav4:
+        st.button(
+            "🎙️ Voz",
+            key="movil_voz",
+            use_container_width=True,
+            on_click=ir_a_seccion_movil,
+            args=("Conversación por voz",),
+        )
+
+    with nav5:
+        st.button(
+            "☰ Más",
+            key="movil_mas",
+            use_container_width=True,
+            on_click=lambda: st.session_state.update(
+                mostrar_menu_movil=not st.session_state.mostrar_menu_movil
+            ),
+        )
+
+    if st.session_state.mostrar_menu_movil:
+        st.markdown("### Más herramientas")
+
+        herramienta_movil = st.selectbox(
+            "Selecciona una sección",
+            [
+                "Revisar SQL",
+                "Seguridad SQL",
+                "Consulta libre",
+                "Alimentar",
+                "Historial",
+            ],
+            key="selector_mas_movil",
+            label_visibility="collapsed",
+        )
+
+        st.button(
+            "Abrir sección →",
+            key="abrir_herramienta_movil",
+            use_container_width=True,
+            on_click=ir_a_seccion_movil,
+            args=(herramienta_movil,),
+        )
 # =====================================================
 # ENCABEZADO PRINCIPAL
 # =====================================================
