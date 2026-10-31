@@ -365,15 +365,15 @@ def cambiar_seccion(nombre):
     st.session_state.seccion = nombre
 
 
-def consultar_agente(pregunta):
+def consultar_agente(texto_pregunta):
     """Envía una solicitud al agente existente."""
-    if not pregunta or not pregunta.strip():
+    if not texto_pregunta or not texto_pregunta.strip():
         st.warning("Escribe una pregunta antes de consultar.")
         return
 
     try:
         with st.spinner("Analizando tu solicitud..."):
-            resultado = ejecutar_agente(pregunta.strip())
+            resultado = ejecutar_agente(texto_pregunta.strip())
 
         if isinstance(resultado, dict):
             respuesta = resultado.get(
@@ -386,7 +386,7 @@ def consultar_agente(pregunta):
             herramienta = "no especificada"
 
         st.session_state.historial.append({
-            "pregunta": pregunta.strip(),
+            "pregunta": texto_pregunta.strip(),
             "respuesta": respuesta,
             "origen": origen,
             "herramienta": herramienta,
@@ -527,6 +527,7 @@ if "mostrar_menu_movil" not in st.session_state:
 def ir_a_seccion_movil(nombre):
     st.session_state.seccion = nombre
     st.session_state.mostrar_menu_movil = False
+    st.session_state.desplazar_seccion_movil = True
 
 
 with st.container(key="mobile_bottom_nav"):
@@ -791,8 +792,12 @@ elif seccion == "Alimentar":
                     st.success(
                         "Conocimiento guardado. SQL Nexus ya puede utilizarlo.")
                 st.rerun()
-            except Exception as error:
-                st.error(f"No se pudo guardar el conocimiento: {error}")
+            except Exception as error:  # pylint: disable=broad-exception-caught
+                st.error(
+                    "No fue posible guardar el conocimiento. "
+                    "Revisa el error en la terminal de VS Code."
+                )
+                st.exception(error)
 
     st.divider()
     conocimientos_guardados = listar_conocimientos()
@@ -959,6 +964,54 @@ elif seccion == "Historial":
                 st.markdown(elemento["respuesta"])
                 st.caption(
                     f"Origen: {elemento['origen']} · Herramienta: {elemento['herramienta']}")
+
+# =====================================================
+# DESPLAZAMIENTO AUTOMATICO AL CONTENIDO EN MOVILES
+# =====================================================
+if st.session_state.get("desplazar_seccion_movil", False):
+    titulos_seccion = {
+        "Inicio": "Tu espacio de trabajo",
+        "Aprender SQL": "Centro de aprendizaje",
+        "Generar consultas": "Generador SQL",
+        "Revisar SQL": "Analizador de consultas",
+        "Seguridad SQL": "Laboratorio de seguridad",
+        "Consulta libre": "Conversa con tu agente",
+        "Alimentar": "Alimentar SQL Nexus",
+        "Conversación por voz": "Conversación por voz",
+        "Historial": "Historial de esta sesión",
+    }
+    titulo_objetivo = titulos_seccion.get(st.session_state.seccion, "")
+    st.components.v1.html(
+        f"""
+        <script>
+        const tituloObjetivo = {json.dumps(titulo_objetivo)};
+        window.setTimeout(() => {{
+            try {{
+                const documento = window.parent.document;
+                const encabezados = documento.querySelectorAll(
+                    '[data-testid="stMainBlockContainer"] h1, '
+                    + '[data-testid="stMainBlockContainer"] h2, '
+                    + '[data-testid="stMainBlockContainer"] h3'
+                );
+                for (const encabezado of encabezados) {{
+                    if (encabezado.innerText.includes(tituloObjetivo)) {{
+                        encabezado.scrollIntoView({{
+                            behavior: "smooth",
+                            block: "start"
+                        }});
+                        break;
+                    }}
+                }}
+            }} catch (error) {{
+                console.warn("No se pudo desplazar a la sección seleccionada.", error);
+            }}
+        }}, 250);
+        </script>
+        """,
+        height=0,
+    )
+    st.session_state.desplazar_seccion_movil = False
+
 
 # =====================================================
 # PIE DE PAGINA
