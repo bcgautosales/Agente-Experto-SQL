@@ -1,0 +1,32 @@
+[
+    {
+        "pregunta": "Cómo se realiza una paginación de resultados en sql",
+        "respuesta": "La paginación permite devolver un grupo limitado de filas por página. En MySQL y PostgreSQL puede utilizarse LIMIT y OFFSET; en SQL Server se emplea normalmente ORDER BY junto con OFFSET ... ROWS FETCH NEXT ... ROWS ONLY. Conviene ordenar los resultados por una columna o combinación de columnas que produzca un orden estable. En tablas grandes, la paginación por clave puede ser más eficiente que utilizar desplazamientos elevados.",
+        "origen": "python",
+        "herramienta": "ensenar"
+    },
+    {
+        "pregunta": "Que es sql",
+        "respuesta": "SQL significa Structured Query Language. Es un lenguaje utilizado para consultar, insertar, modificar y administrar datos en bases de datos relacionales.",
+        "origen": "python",
+        "herramienta": "ensenar"
+    },
+    {
+        "pregunta": "Recuérdame que es una Vista en sql",
+        "respuesta": "Una vista es una consulta almacenada que se presenta como una tabla virtual. Puede simplificar consultas complejas y limitar qué columnas o registros pueden ver determinados usuarios. Una vista convencional normalmente no almacena los resultados como una tabla independiente, aunque existen vistas materializadas en algunos motores. Ejemplo: CREATE VIEW usuarios_activos AS SELECT id, nombre FROM usuarios WHERE activo = 1;.",
+        "origen": "python",
+        "herramienta": "ensenar"
+    },
+    {
+        "pregunta": "Qué es sql",
+        "respuesta": "SQL significa Structured Query Language. Es un lenguaje utilizado para consultar, insertar, modificar y administrar datos en bases de datos relacionales.",
+        "origen": "python",
+        "herramienta": "ensenar"
+    },
+    {
+        "pregunta": "Qué es sql",
+        "respuesta": "SQL significa Structured Query Language. Es un lenguaje utilizado para consultar, insertar, modificar y administrar datos en bases de datos relacionales.",
+        "origen": "python",
+        "herramienta": "ensenar"
+    }
+]
