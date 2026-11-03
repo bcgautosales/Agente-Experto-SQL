@@ -28,5 +28,24 @@
         "respuesta": "SQL significa Structured Query Language. Es un lenguaje utilizado para consultar, insertar, modificar y administrar datos en bases de datos relacionales.",
         "origen": "python",
         "herramienta": "ensenar"
+    },
+    {
+        "pregunta": "Recuérdame que es una Vista en sql",
+        "respuesta": "Una vista es una consulta almacenada que se presenta como una tabla virtual. Puede simplificar consultas complejas y limitar qué columnas o registros pueden ver determinados usuarios. Una vista convencional normalmente no almacena los resultados como una tabla independiente, aunque existen vistas materializadas en algunos motores. Ejemplo: CREATE VIEW usuarios_activos AS SELECT id, nombre FROM usuarios WHERE activo = 1;.",
+        "origen": "python",
+        "herramienta": "ensenar"
+    },
+    {
+        "pregunta": "Recuérdame que es una Vista en sql",
+        "respuesta": "Una vista es una consulta almacenada que se presenta como una tabla virtual. Puede simplificar consultas complejas y limitar qué columnas o registros pueden ver determinados usuarios. Una vista convencional normalmente no almacena los resultados como una tabla independiente, aunque existen vistas materializadas en algunos motores. Ejemplo: CREATE VIEW usuarios_activos AS SELECT id, nombre FROM usuarios WHERE activo = 1;.",
+        "origen": "python",
+        "herramienta": "ensenar"
+    },
+    {
+        "pregunta": "Como quedo la final de futbol del 2022",
+        "respuesta": "¡Hola! Como agente experto en SQL, mi especialidad es ayudarte a diseñar, comprender y optimizar consultas para bases de datos relacionales, como la que estás construyendo para la biblioteca universitaria. \n\nRespecto a tu pregunta sobre **la final de fútbol de 2022** (la Copa Mundial de la FIFA Catar 2022), ese evento no forma parte del dominio de una base de datos de una biblioteca universitaria, por lo que no dispongo de esos datos deportivos en nuestro proyecto actual. \n\nSin embargo, para mantener nuestro enfoque educativo y aplicado a SQL, imagina que tuvieras una tabla en tu base de datos llamada `eventos_deportivos` o que quisiéramos registrar resultados históricos. Podríamos consultar información estructurada de la siguiente manera:\n\n### Ejemplo de Consulta SQL relacionada\n\nSi tuviéramos una tabla llamada `partidos` con las columnas `torneo`, `anio`, `equipo_local`, `equipo_visitante`, `goles_local` y `goles_visitante`, la consulta para ver la final del Mundial de 2022 se vería así:\n\n```sql\nSELECT torneo, anio, equipo_local, goles_local, equipo_visitante, goles_visitante\nFROM partidos\nWHERE torneo = 'Copa Mundial FIFA' \n  AND anio = 2022 \n  AND fase = 'Final';\n```\n\n**Explicación de la consulta:**\n1. **`SELECT ... FROM partidos`**: Indicamos qué columnas queremos ver y de qué tabla (`partidos`) extraeremos la información.\n2. **`WHERE`**: Es la cláusula que usamos para filtrar los registros. En este caso, filtramos por el torneo, el año 2022 y la fase del torneo.\n3. **Dato histórico (fuera de SQL)**: Para responder a tu pregunta general, la final del Mundial de Catar 2022 la jugaron **Argentina y Francia**. El partido terminó empatado 3-3 en el tiempo reglamentario y suplementario, y **Argentina ganó 4-2 en la definición por penales**.\n\nSi deseas continuar diseñando tablas, consultas, vistas o procedimientos almacenados para tu **biblioteca universitaria**, por favor dime qué tablas tienes o qué información necesitas gestionar y con gusto te ayudaré.",
+        "origen": "gemini",
+        "herramienta": "ia",
+        "estado_biblioteca": "agregado"
     }
 ]

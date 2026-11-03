@@ -390,12 +390,57 @@ def consultar_agente(texto_pregunta):
             "respuesta": respuesta,
             "origen": origen,
             "herramienta": herramienta,
+            # Solo las respuestas de Gemini quedan pendientes de decisión.
+            "estado_biblioteca": "pendiente" if str(origen).lower() == "gemini" else "no_aplica",
         })
         guardar_historial(st.session_state.historial)
     except Exception as error:
         st.error(
             "No fue posible procesar la consulta. Revisa el error en la terminal de VS Code.")
         st.exception(error)
+
+
+def mostrar_acciones_biblioteca(registro, clave):
+    """Permite guardar o descartar una respuesta generada por Gemini."""
+    origen = str(registro.get("origen", "")).strip().lower()
+    estado = registro.get("estado_biblioteca", "pendiente")
+
+    if origen != "gemini":
+        return
+
+    if estado == "agregado":
+        st.success("📚 Esta respuesta ya está guardada en la biblioteca de conceptos.")
+        return
+    if estado == "descartado":
+        st.caption("Esta respuesta fue descartada y no se agregó a la biblioteca.")
+        return
+
+    st.markdown("#### ¿Quieres agregar esta respuesta a la biblioteca de conceptos?")
+    st.caption("Guarda únicamente las respuestas útiles sobre SQL o bases de datos. Si el tema no corresponde, puedes descartarla.")
+    col_guardar, col_descartar = st.columns(2)
+
+    with col_guardar:
+        if st.button("📚 Agregar a la biblioteca", key=f"agregar_biblioteca_{clave}", use_container_width=True):
+            try:
+                estado_guardado = guardar_conocimiento(
+                    registro.get("pregunta", ""),
+                    registro.get("respuesta", ""),
+                )
+                registro["estado_biblioteca"] = "agregado"
+                guardar_historial(st.session_state.historial)
+                if estado_guardado == "actualizado":
+                    st.success("El concepto ya existía y su respuesta fue actualizada en la biblioteca.")
+                else:
+                    st.success("¡Respuesta agregada a la biblioteca de conceptos!")
+            except Exception as error:
+                st.error("No se pudo guardar el conocimiento. Revisa el error y vuelve a intentarlo.")
+                st.exception(error)
+
+    with col_descartar:
+        if st.button("🗑️ Descartar", key=f"descartar_biblioteca_{clave}", use_container_width=True):
+            registro["estado_biblioteca"] = "descartado"
+            guardar_historial(st.session_state.historial)
+            st.info("Respuesta descartada. No se agregó a la biblioteca.")
 
 
 def mostrar_resultado():
@@ -417,6 +462,9 @@ def mostrar_resultado():
     st.markdown('<div class="resultado">', unsafe_allow_html=True)
     st.markdown(ultimo.get("respuesta", "Sin respuesta."))
     st.markdown("</div>", unsafe_allow_html=True)
+
+    # Las opciones aparecen solo si la respuesta provino de Gemini.
+    mostrar_acciones_biblioteca(ultimo, len(st.session_state.historial) - 1)
 
     st.divider()
     st.markdown("### 💬 Continúa la conversación")
@@ -866,6 +914,9 @@ elif seccion == "Conversación por voz":
                     if ultima_respuesta:
                         st.markdown("### 🤖 Respuesta de SQL Nexus")
                         st.markdown(ultima_respuesta)
+                        mostrar_acciones_biblioteca(
+                            registro, len(st.session_state.historial) - 1
+                        )
 
                         # Traducir los nombres técnicos a etiquetas visibles
                         origen_mostrado = {
@@ -958,12 +1009,15 @@ elif seccion == "Historial":
     if not st.session_state.historial:
         st.info("Todavía no hay consultas en esta sesión.")
     else:
+        total_registros = len(st.session_state.historial)
         for numero, elemento in enumerate(reversed(st.session_state.historial), start=1):
+            indice_original = total_registros - numero
             with st.expander(f"{numero}. {elemento['pregunta'][:75]}"):
                 st.markdown("**Respuesta:**")
                 st.markdown(elemento["respuesta"])
                 st.caption(
                     f"Origen: {elemento['origen']} · Herramienta: {elemento['herramienta']}")
+                mostrar_acciones_biblioteca(elemento, f"historial_{indice_original}")
 
 # =====================================================
 # DESPLAZAMIENTO AUTOMATICO AL CONTENIDO EN MOVILES
