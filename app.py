@@ -1,5 +1,6 @@
 import streamlit as st
 from orquestador import ejecutar_agente
+from bd_agente import registrar_consulta
 from conocimientos import (
     listar_conocimientos,
     guardar_conocimiento,
@@ -384,6 +385,17 @@ def consultar_agente(texto_pregunta):
             respuesta = str(resultado)
             origen = "desconocido"
             herramienta = "no especificada"
+
+        # Registrar en SQLite sin impedir que SQL Nexus responda si falla la base de datos.
+        try:
+            registrar_consulta(
+                texto_pregunta.strip(),
+                respuesta,
+                origen,
+                herramienta,
+            )
+        except Exception as error_bd:
+            print(f"No se pudo registrar la consulta en SQLite: {error_bd}")
 
         st.session_state.historial.append({
             "pregunta": texto_pregunta.strip(),

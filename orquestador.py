@@ -51,6 +51,14 @@ def ejecutar_agente(solicitud):
 
     if herramienta == "generar_sql":
         respuesta = generar_consulta_sql(solicitud)
+
+        # Si Python no reconoce la solicitud, intentamos responder con Gemini.
+        if respuesta.startswith("No reconozco esa solicitud"):
+            contexto = construir_contexto_completo()
+            respuesta = preguntar_ia(solicitud, contexto)
+            return crear_resultado(solicitud, "ia", "gemini", respuesta)
+
+        # Si Python reconoce la solicitud, conservamos la respuesta local.
         return crear_resultado(solicitud, "generar_sql", "python", respuesta)
 
     if herramienta == "revisar_sql":

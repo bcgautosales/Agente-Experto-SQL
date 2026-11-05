@@ -12,3 +12,5 @@ __pycache__/
 # Entornos virtuales
 .venv/
 venv/
+# Base de datos local del historial
+agente_historial.db
