@@ -1,6 +1,4 @@
-"""
-Conexión del agente experto en SQL con Gemini.
-"""
+"""Conexión de SQL Nexus con Gemini mediante la API de Interactions."""
 
 import os
 
@@ -14,16 +12,13 @@ api_key = os.getenv("GEMINI_API_KEY")
 
 if not api_key:
     raise ValueError(
-        "No se encontró GEMINI_API_KEY. "
-        "Revisa el archivo .env."
+        "No se encontró GEMINI_API_KEY. Revisa el archivo .env."
     )
 
 cliente = genai.Client(api_key=api_key)
 
 
 def preguntar_ia(pregunta, contexto=""):
-    """Envía una pregunta a Gemini con instrucciones y contexto."""
-
     mensaje = f"""
 {PROMPT_SISTEMA}
 
@@ -38,9 +33,14 @@ Si incluyes consultas SQL, explica qué hacen.
 No inventes datos sobre la base de datos del usuario.
 """
 
-    respuesta = cliente.models.generate_content(
-        model="gemini-flash-lite-latest",
-        contents=mensaje
+    respuesta = cliente.interactions.create(
+        model="gemini-3.1-flash-lite",
+        input=mensaje,
     )
 
-    return respuesta.text
+    texto = respuesta.output_text
+
+    if not texto:
+        raise RuntimeError("Gemini no devolvió una respuesta de texto.")
+
+    return texto
