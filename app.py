@@ -386,14 +386,16 @@ def consultar_agente(texto_pregunta):
             origen = "desconocido"
             herramienta = "no especificada"
 
-        # Registrar en SQLite sin impedir que SQL Nexus responda si falla la base de datos.
+        # Registrar la consulta en SQLite sin detener el agente si ocurre un error.
         try:
-            registrar_consulta(
+            id_consulta = registrar_consulta(
                 texto_pregunta.strip(),
                 respuesta,
                 origen,
                 herramienta,
             )
+            print(
+                f"Consulta registrada correctamente en SQLite. ID: {id_consulta}")
         except Exception as error_bd:
             print(f"No se pudo registrar la consulta en SQLite: {error_bd}")
 
@@ -421,13 +423,16 @@ def mostrar_acciones_biblioteca(registro, clave):
         return
 
     if estado == "agregado":
-        st.success("📚 Esta respuesta ya está guardada en la biblioteca de conceptos.")
+        st.success(
+            "📚 Esta respuesta ya está guardada en la biblioteca de conceptos.")
         return
     if estado == "descartado":
-        st.caption("Esta respuesta fue descartada y no se agregó a la biblioteca.")
+        st.caption(
+            "Esta respuesta fue descartada y no se agregó a la biblioteca.")
         return
 
-    st.markdown("#### ¿Quieres agregar esta respuesta a la biblioteca de conceptos?")
+    st.markdown(
+        "#### ¿Quieres agregar esta respuesta a la biblioteca de conceptos?")
     st.caption("Guarda únicamente las respuestas útiles sobre SQL o bases de datos. Si el tema no corresponde, puedes descartarla.")
     col_guardar, col_descartar = st.columns(2)
 
@@ -441,11 +446,14 @@ def mostrar_acciones_biblioteca(registro, clave):
                 registro["estado_biblioteca"] = "agregado"
                 guardar_historial(st.session_state.historial)
                 if estado_guardado == "actualizado":
-                    st.success("El concepto ya existía y su respuesta fue actualizada en la biblioteca.")
+                    st.success(
+                        "El concepto ya existía y su respuesta fue actualizada en la biblioteca.")
                 else:
-                    st.success("¡Respuesta agregada a la biblioteca de conceptos!")
+                    st.success(
+                        "¡Respuesta agregada a la biblioteca de conceptos!")
             except Exception as error:
-                st.error("No se pudo guardar el conocimiento. Revisa el error y vuelve a intentarlo.")
+                st.error(
+                    "No se pudo guardar el conocimiento. Revisa el error y vuelve a intentarlo.")
                 st.exception(error)
 
     with col_descartar:
@@ -1029,7 +1037,8 @@ elif seccion == "Historial":
                 st.markdown(elemento["respuesta"])
                 st.caption(
                     f"Origen: {elemento['origen']} · Herramienta: {elemento['herramienta']}")
-                mostrar_acciones_biblioteca(elemento, f"historial_{indice_original}")
+                mostrar_acciones_biblioteca(
+                    elemento, f"historial_{indice_original}")
 
 # =====================================================
 # DESPLAZAMIENTO AUTOMATICO AL CONTENIDO EN MOVILES
