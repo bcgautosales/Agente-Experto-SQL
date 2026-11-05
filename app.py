@@ -1,6 +1,9 @@
 import streamlit as st
 from orquestador import ejecutar_agente
-from bd_agente import registrar_consulta
+from bd_agente import (
+    registrar_consulta,
+    actualizar_estado_aprendizaje_sql,
+)
 from conocimientos import (
     listar_conocimientos,
     guardar_conocimiento,
@@ -372,6 +375,8 @@ def consultar_agente(texto_pregunta):
         st.warning("Escribe una pregunta antes de consultar.")
         return
 
+    id_consulta = None
+
     try:
         with st.spinner("Analizando tu solicitud..."):
             resultado = ejecutar_agente(texto_pregunta.strip())
@@ -404,6 +409,7 @@ def consultar_agente(texto_pregunta):
             "respuesta": respuesta,
             "origen": origen,
             "herramienta": herramienta,
+            "id_consulta": id_consulta,
             # Solo las respuestas de Gemini quedan pendientes de decisión.
             "estado_biblioteca": "pendiente" if str(origen).lower() == "gemini" else "no_aplica",
         })
@@ -445,6 +451,10 @@ def mostrar_acciones_biblioteca(registro, clave):
                 )
                 registro["estado_biblioteca"] = "agregado"
                 guardar_historial(st.session_state.historial)
+                if registro.get("id_consulta") is not None:
+                    actualizar_estado_aprendizaje_sql(
+                        registro["id_consulta"], "aceptado"
+                    )
                 if estado_guardado == "actualizado":
                     st.success(
                         "El concepto ya existía y su respuesta fue actualizada en la biblioteca.")
@@ -460,6 +470,10 @@ def mostrar_acciones_biblioteca(registro, clave):
         if st.button("🗑️ Descartar", key=f"descartar_biblioteca_{clave}", use_container_width=True):
             registro["estado_biblioteca"] = "descartado"
             guardar_historial(st.session_state.historial)
+            if registro.get("id_consulta") is not None:
+                actualizar_estado_aprendizaje_sql(
+                    registro["id_consulta"], "rechazado"
+                )
             st.info("Respuesta descartada. No se agregó a la biblioteca.")
 
 
